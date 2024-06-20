@@ -18,7 +18,121 @@ const config = {
   entry: {
     main: "./src/index",
   },
-  plugins: [new HtmlWebpackPlugin()],
+  target: [
+    'web',
+    'es2017'
+  ],
+  resolve: {
+    extensions: [
+      '.ts',
+      '.tsx',
+      '.js',
+      '.jsx',
+      '.mjs',
+      '.json'
+    ]
+  },
+  module: {
+    parser: {
+      javascript: {
+        exportsPresence: 'error'
+      }
+    },
+    rules: [
+      /* config.module.rule('mjs') */
+      {
+        test: /\.m?js/,
+        resolve: {
+          fullySpecified: false
+        }
+      },
+      /* config.module.rule('js') */
+      {
+        test: /\.(?:js|jsx|mjs|cjs|ts|tsx|mts|cts)$/,
+        type: 'javascript/auto',
+        use: [
+          /* config.module.rule('js').use('swc') */
+          {
+            loader: 'builtin:swc-loader',
+            options: {
+              jsc: {
+                externalHelpers: true,
+                parser: {
+                  tsx: false,
+                  syntax: 'typescript',
+                  decorators: true
+                },
+                preserveAllComments: true,
+                transform: {
+                  legacyDecorator: true,
+                  decoratorMetadata: true,
+                  useDefineForClassFields: false
+                }
+              },
+              isModule: 'unknown',
+              env: {
+                targets: [
+                  'chrome >= 87',
+                  'edge >= 88',
+                  'firefox >= 78',
+                  'safari >= 14'
+                ],
+                mode: 'usage',
+                coreJs: '3.36',
+                shippedProposals: true
+              }
+            }
+          }
+        ],
+      },
+      /* config.module.rule('js-data-uri') */
+      {
+        mimetype: {
+          or: [
+            'text/javascript',
+            'application/javascript'
+          ]
+        },
+        use: [
+          /* config.module.rule('js-data-uri').use('swc') */
+          {
+            loader: 'builtin:swc-loader',
+            options: {
+              jsc: {
+                externalHelpers: true,
+                parser: {
+                  tsx: false,
+                  syntax: 'typescript',
+                  decorators: true
+                },
+                preserveAllComments: true,
+                transform: {
+                  legacyDecorator: true,
+                  decoratorMetadata: true,
+                  useDefineForClassFields: false
+                }
+              },
+              isModule: 'unknown',
+              env: {
+                targets: [
+                  'chrome >= 87',
+                  'edge >= 88',
+                  'firefox >= 78',
+                  'safari >= 14'
+                ],
+                mode: 'usage',
+                coreJs: '3.36',
+                shippedProposals: true
+              }
+            }
+          }
+        ],
+        resolve: {
+          fullySpecified: false,
+        }
+      },
+    ]
+  },
   output: {
     clean: true,
     path: isRunningWebpack
@@ -29,6 +143,9 @@ const config = {
   experiments: {
     css: true,
   },
+  optimization: {
+    concatenateModules: true,
+  }
 };
 
 export default config;

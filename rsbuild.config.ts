@@ -6,4 +6,12 @@ export default defineConfig({
       root: "./rsbuild-dist",
     },
   },
+  tools: {
+    htmlPlugin: false,
+    rspack: {
+      optimization: {
+        concatenateModules: true,
+      },
+    },
+  },
 });

@@ -1,3 +1,3 @@
-import('./render').then(exports => {
-    exports.render()
-})
+import * as foo from './foo.cjs'
+
+console.log(foo)
