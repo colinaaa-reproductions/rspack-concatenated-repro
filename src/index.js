@@ -1,3 +1,3 @@
-import * as foo from './foo.cjs'
+import * as foo from "./foo.cjs";
 
-console.log(foo)
+console.log(foo);
